@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twilight Brawl - Tournament Edition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="arcade-cabinet">
+    <div class="crt-overlay"></div>
+
+    <div id="screen-loading" class="screen">
+      <div class="loading-panel">
+        <h1 class="arcade-title">TWILIGHT BRAWL</h1>
+        <p class="arcade-subtitle">CHAMPIONSHIP ARCADE COMBAT</p>
+        <div class="progress-container">
+          <div id="loading-bar-fill" class="progress-bar"></div>
+        </div>
+        <p id="loading-status-text" class="status-label">INITIALIZING SYSTEM...</p>
+      </div>
+    </div>
+
+    <div id="screen-menu" class="screen hidden">
+      <div class="menu-container">
+        <div class="marquee-box">
+          <h1 class="marquee-title">TWILIGHT BRAWL</h1>
+          <p class="marquee-sub">TOURNAMENT EDITION &bull; STEEL &amp; SHADOW</p>
+        </div>
+        <div class="menu-options">
+          <button id="btn-menu-start" class="arcade-btn primary">START GAME</button>
+          <button id="btn-menu-controls" class="arcade-btn">CONTROLS</button>
+          <button id="btn-menu-exit" class="arcade-btn danger">EXIT</button>
+        </div>
+        <div class="arcade-footer">
+          <span>CREDITS: 02</span>
+          <span class="blinking-text">PRESS START</span>
+          <span>BEST OF 3 ROUNDS</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-mode" class="screen hidden">
+      <div class="modal-box mode-select-modal">
+        <h2 class="panel-heading">CHAMPIONSHIP ARCADE MODE</h2>
+        <div class="mode-single-container">
+          <div class="mode-featured-card active" data-mode="pvb">
+            <div class="mode-badge">1 PLAYER</div>
+            <div class="mode-icon-large">1P vs CPU</div>
+            <div class="mode-title-large">ARCADE TOURNAMENT</div>
+            <div class="mode-desc-large">Enter the championship arena in a best-of-3 duel against an adaptive computer challenger. Master timing, defensive guarding, and unleash your ultimate gauge.</div>
+          </div>
+        </div>
+
+        <div class="difficulty-section">
+          <span class="diff-label">DIFFICULTY LEVEL:</span>
+          <div class="diff-btn-group">
+            <button class="diff-btn" data-diff="easy">NOVICE</button>
+            <button class="diff-btn active" data-diff="normal">WARRIOR</button>
+            <button class="diff-btn" data-diff="hard">CHAMPION</button>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="arcade-btn btn-back-menu">BACK</button>
+          <button id="btn-mode-confirm" class="arcade-btn primary">CONFIRM MODE</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-fighter" class="screen hidden">
+      <div class="injustice-select-container">
+        <div class="injustice-header-bar">
+          <h2 class="injustice-main-title">CHOOSE YOUR FIGHTER</h2>
+          <span class="injustice-hint">USE &larr; &rarr; OR A / D TO CYCLE &bull; ENTER TO LOCK IN</span>
+        </div>
+
+        <div class="injustice-stage-viewport">
+          <div class="injustice-model-column">
+            <div class="pedestal-glow"></div>
+            <canvas id="injustice-stage-canvas" width="340" height="340"></canvas>
+          </div>
+
+          <div class="injustice-details-column">
+            <div class="fighter-header-plate">
+              <h1 id="injustice-char-name" class="injustice-name">KENSEI</h1>
+              <div id="injustice-char-title" class="injustice-title">THE AZURE BLADE</div>
+              <p id="injustice-char-desc" class="injustice-bio">Master of Iaido and flowing steel. Controls distance with precise edge slashes.</p>
+            </div>
+
+            <div class="injustice-stats-group">
+              <div class="injustice-stat-row">
+                <span class="stat-name">SPEED</span>
+                <div class="injustice-stat-track"><div id="injustice-stat-speed" class="injustice-stat-fill"></div></div>
+                <span id="injustice-val-speed" class="stat-val">75</span>
+              </div>
+              <div class="injustice-stat-row">
+                <span class="stat-name">POWER</span>
+                <div class="injustice-stat-track"><div id="injustice-stat-power" class="injustice-stat-fill"></div></div>
+                <span id="injustice-val-power" class="stat-val">85</span>
+              </div>
+              <div class="injustice-stat-row">
+                <span class="stat-name">DEFENSE</span>
+                <div class="injustice-stat-track"><div id="injustice-stat-defense" class="injustice-stat-fill"></div></div>
+                <span id="injustice-val-defense" class="stat-val">80</span>
+              </div>
+              <div class="injustice-stat-row">
+                <span class="stat-name">RANGE</span>
+                <div class="injustice-stat-track"><div id="injustice-stat-range" class="injustice-stat-fill"></div></div>
+                <span id="injustice-val-range" class="stat-val">85</span>
+              </div>
+            </div>
+
+            <div class="injustice-moves-section">
+              <span class="moves-header">SPECIAL TECHNIQUES</span>
+              <div id="injustice-movelist" class="moves-chips-row"></div>
+            </div>
+
+            <div class="injustice-cpu-preview-card">
+              <canvas id="injustice-cpu-canvas" width="110" height="110"></canvas>
+              <div class="cpu-meta">
+                <span class="cpu-label">UPCOMING CHALLENGER</span>
+                <h4 id="injustice-cpu-name" class="cpu-name">SHINOBI</h4>
+                <span id="injustice-cpu-title" class="cpu-title">THE CRIMSON SHADOW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="injustice-grid-footer">
+          <div class="roster-tiles-wrapper">
+            <div class="roster-tile active" data-char="char1">
+              <canvas id="tile-canvas-0" width="90" height="80"></canvas>
+              <span class="tile-label">KENSEI</span>
+            </div>
+            <div class="roster-tile" data-char="char2">
+              <canvas id="tile-canvas-1" width="90" height="80"></canvas>
+              <span class="tile-label">SHINOBI</span>
+            </div>
+            <div class="roster-tile random-tile" data-char="random">
+              <div class="random-tile-box">?</div>
+              <span class="tile-label">RANDOM</span>
+            </div>
+          </div>
+
+          <div class="injustice-actions">
+            <button class="arcade-btn btn-back-menu">BACK</button>
+            <button id="btn-fighter-confirm" class="arcade-btn primary pulse">LOCK IN FIGHTER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-stage" class="screen hidden">
+      <div class="modal-box stage-carousel-modal">
+        <h2 class="panel-heading">SELECT BATTLEFIELD</h2>
+        <div class="stage-carousel-container">
+          <button id="btn-stage-prev" class="carousel-nav-btn">&lsaquo;</button>
+
+          <div class="carousel-viewport">
+            <div id="carousel-track" class="carousel-track">
+              <div class="carousel-card active" data-stage="twilight_beach">
+                <div class="card-img-wrap">
+                  <canvas id="stage-canvas-0" class="carousel-canvas" width="380" height="210"></canvas>
+                  <img src="background twilight beach/cover1.png" alt="Twilight Beach" class="carousel-img">
+                </div>
+                <div class="card-caption">
+                  <h3 class="card-title">TWILIGHT BEACH</h3>
+                  <span class="card-loc">PACIFIC SHORELINE</span>
+                  <p class="card-desc">4-Layer Parallax: Sunset sky, drifting clouds, cycling tides, and sandy shoreline.</p>
+                </div>
+              </div>
+
+              <div class="carousel-card" data-stage="mystic_forest">
+                <div class="card-img-wrap">
+                  <canvas id="stage-canvas-1" class="carousel-canvas" width="380" height="210"></canvas>
+                  <img src="background forest/forest_preview.png" alt="Mystic Forest" class="carousel-img">
+                </div>
+                <div class="card-caption">
+                  <h3 class="card-title">MYSTIC FOREST</h3>
+                  <span class="card-loc">ANCIENT GROVE</span>
+                  <p class="card-desc">12-Layer Parallax: Ancient dense canopy with volumetric light beams and deep foliage.</p>
+                </div>
+              </div>
+
+              <div class="carousel-card" data-stage="sunset_cove">
+                <div class="card-img-wrap">
+                  <canvas id="stage-canvas-2" class="carousel-canvas" width="380" height="210"></canvas>
+                  <img src="background twilight beach/cover3.png" alt="Sunset Cove" class="carousel-img">
+                </div>
+                <div class="card-caption">
+                  <h3 class="card-title">SUNSET COVE</h3>
+                  <span class="card-loc">ROCKY INLET</span>
+                  <p class="card-desc">Golden hour variation featuring dramatic sun flares, rapid tide currents, and wet sands.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button id="btn-stage-next" class="carousel-nav-btn">&rsaquo;</button>
+        </div>
+
+        <div class="carousel-dots-row">
+          <span class="carousel-dot active"></span>
+          <span class="carousel-dot"></span>
+          <span class="carousel-dot"></span>
+        </div>
+
+        <div class="stage-active-summary">
+          <h3 id="stage-selected-title" class="summary-title">TWILIGHT BEACH</h3>
+          <span id="stage-selected-location" class="summary-location">PACIFIC SHORELINE</span>
+          <p id="stage-selected-desc" class="summary-desc">Golden horizon with rolling ocean waves and a setting twilight sun.</p>
+        </div>
+
+        <div class="action-buttons">
+          <button class="arcade-btn btn-back-menu">BACK</button>
+          <button id="btn-stage-confirm" class="arcade-btn primary pulse">CONFIRM ARENA</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-controls" class="screen hidden">
+      <div class="modal-box single-controls-modal">
+        <h2 class="panel-heading">FIGHTER CONTROLS &amp; COMBAT RULES</h2>
+        <div class="single-controls-content">
+          <div class="ctrl-group-box">
+            <h3>MOVEMENT &amp; DEFENSE</h3>
+            <div class="ctrl-row"><span>MOVE LEFT / RIGHT</span><span class="kbd-key">A / D</span></div>
+            <div class="ctrl-row"><span>JUMP (AIR TRAJECTORY)</span><span class="kbd-key">W</span></div>
+            <div class="ctrl-row"><span>CROUCH / GUARD (BLOCK)</span><span class="kbd-key">S</span></div>
+          </div>
+
+          <div class="ctrl-group-box">
+            <h3>ATTACKS &amp; SPECIALS</h3>
+            <div class="ctrl-row"><span>LIGHT ATTACK (QUICK POKE)</span><span class="kbd-key">J</span></div>
+            <div class="ctrl-row"><span>HEAVY ATTACK (POWER CLEAVE)</span><span class="kbd-key">K</span></div>
+            <div class="ctrl-row"><span>ULTIMATE SURGE (100% GAUGE)</span><span class="kbd-key gold">L</span></div>
+          </div>
+        </div>
+
+        <div class="rules-highlight-box">
+          <div class="rule-item"><strong>MATCH FORMAT:</strong> 3 Rounds total, 120 seconds per round. First to 2 round wins claims championship.</div>
+          <div class="rule-item"><strong>ULTIMATE METER:</strong> Charges dynamically when dealing damage (+15-25%), taking damage (+10%), or successfully guarding (+12%).</div>
+          <div class="rule-item"><strong>GUARD DEFENSE:</strong> Holding [S] crouches and blocks incoming strikes, reducing damage by 85% with block sparks.</div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="arcade-btn btn-back-menu">RETURN TO MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-standby" class="screen hidden">
+      <div class="standby-wrapper">
+        <h1 class="standby-title">INSERT COIN</h1>
+        <p class="standby-sub">CREDITS 00</p>
+        <p class="standby-prompt blinking-text">PRESS ANY KEY OR CLICK TO PLAY</p>
+      </div>
+    </div>
+
+    <div id="screen-battle" class="screen hidden">
+      <div class="canvas-header-bar">
+        <button id="btn-toggle-audio" class="hud-pill-btn">MUTE SOUND</button>
+        <span class="arena-match-label">CHAMPIONSHIP BOUT</span>
+        <span class="arena-rule-pill">BEST OF 3</span>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="gameCanvas" width="1280" height="720"></canvas>
+      </div>
+    </div>
+
+    <div id="screen-pause" class="screen-overlay hidden">
+      <div class="pause-card">
+        <h2 class="panel-heading">MATCH PAUSED</h2>
+        <div class="menu-options">
+          <button id="btn-pause-resume" class="arcade-btn primary">RESUME</button>
+          <button id="btn-pause-restart" class="arcade-btn">RESTART ROUND</button>
+          <button id="btn-pause-quit" class="arcade-btn danger">EXIT TO MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-match-over" class="screen-overlay hidden">
+      <div class="victory-card">
+        <h2 id="match-over-winner" class="victory-winner">PLAYER 1 VICTORIOUS!</h2>
+        <div class="victory-scores">
+          <p id="match-over-p1-score" class="score-line">Player 1: 2 Rounds</p>
+          <p id="match-over-p2-score" class="score-line">Opponent: 0 Rounds</p>
+        </div>
+        <div class="action-buttons">
+          <button id="btn-rematch" class="arcade-btn primary">REMATCH</button>
+          <button id="btn-match-over-menu" class="arcade-btn">MAIN MENU</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/fighter.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
